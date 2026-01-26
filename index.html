@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizza Teigrechner</title>
+
+
+<style>
+:root {
+  --pizza-red: #d35400;
+  --pizza-orange: #e67e22;
+  --pizza-light: #fff4e6;
+  --pizza-bg: #fdf7f2;
+  --pizza-text: #2c2c2c;
+  --card-bg: #ffffff;
+  --border-soft: #e6dcd2;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #fff8f0, #fbeee0);
+  color: var(--pizza-text);
+}
+
+h1 {
+  text-align: center;
+  color: var(--pizza-red);
+  margin-bottom: 24px;
+}
+
+.container {
+  max-width: 95vw;
+  margin: auto;
+  background: var(--card-bg);
+  border-radius: 18px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+
+.section {
+  margin-bottom: 26px;
+}
+
+.section h2 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--pizza-orange);
+  border-bottom: 2px solid var(--pizza-light);
+  padding-bottom: 4px;
+}
+
+.field {
+  display: block;
+  margin-bottom: 28px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.field input,
+.field select {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 6px;
+}
+
+.field input[type="range"] {
+  display: block;
+  margin: 10px 0 6px;
+}
+
+.value {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+}
+
+label,
+.results span {
+  line-height: 1.4;
+}
+
+input,
+select {
+  padding: 8px 3px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  font-size: 1rem;
+}
+
+input[type="range"] {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  margin-bottom: 4px;
+}
+
+.value-display {
+  text-align: right;
+  font-weight: 600;
+  color: var(--pizza-red);
+}
+
+.results {
+  background: var(--pizza-bg);
+  border-radius: 14px;
+  padding: 18px;
+  margin-top: 20px;
+}
+
+.results-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+}
+
+.results {
+  margin-top: 32px;
+}
+
+
+.results-row:last-child {
+  border-bottom: none;
+}
+
+.results span {
+  font-weight: 600;
+}
+
+.footer {
+  text-align: center;
+  margin-top: 18px;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 20px 22px;
+  margin-bottom: 26px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.card {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.row input[type="range"] {
+  flex: 1;
+  margin-right: 12px;
+}
+
+.result {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+  font-size: 0.95rem;
+}
+
+.result:last-child {
+  border-bottom: none;
+}
+
+.result strong {
+  color: var(--pizza-red);
+  font-weight: 600;
+}
+
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 1.1rem;
+  color: var(--pizza-orange);
+}
+
+.row-line {
+  display: grid;
+  grid-template-columns: 50px 50px 60px 100px;
+  gap: 4px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.input-with-unit {
+  width: 80px;
+}
+
+
+.input-with-unit {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.input-with-unit input[type="number"] {
+  width: 90px;       /* anpassen oder in Media Queries überschreiben */
+  min-width: 60px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  font-size: 1rem;
+}
+
+.unit {
+  color: var(--pizza-text);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.result strong.green-value {
+  color: #3e9160 !important;
+}
+
+
+</style>
+
+<link rel="manifest" href="./manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="icon-192.png">
+
+</head>
+<body>
+  <div class="container">
+    <h1>🍕 Pizza-Teigrechner Marcus</h1>
+
+  <!-- KASTEN 1: Anzahl + Gewicht -->
+  <div class="card">
+
+    <div class="row-line">
+    <label>Anzahl</label>
+    <select id="balls1"></select>
+
+    <label>Gewicht</label>
+    <div class="input-with-unit">
+      <select id="weight1"></select>
+      <span class="unit">g</span>
+    </div>
+
+  </div>
+
+  <div class="row-line">
+    <label>Anzahl</label>
+    <select id="balls2"></select>
+
+    <label>Gewicht</label>
+    <div class="input-with-unit">
+      <select id="weight2"></select>
+      <span class="unit">g</span>
+    </div>
+
+  </div>
+</div> <!-- Ende Kasten 1 -->
+
+
+    <!-- KASTEN 2: Slider -->
+    <div class="card">
+      <label>Dinkel Vollkorn Anteil (%)</label>
+      <div class="row">
+        <input type="range" id="dinkel" min="0" max="20" step="1" value="9">
+        <div class="value"><span id="dinkelVal">9</span> %</div>
+      </div>
+
+      <label>Caputo 00 Anteil (%)</label>
+      <div class="row">
+        <input type="range" id="caputo" min="0" max="100" step="1" value="91" disabled>
+        <div class="value"><span id="caputoVal">91</span> %</div>
+      </div>
+
+      <label style="margin-top:10px">Hydration (%)</label>
+      <div class="row">
+        <input type="range" id="hydration" min="55" max="65" step="1" value="63">
+        <div class="value"><span id="hydrationVal">63</span> %</div>
+      </div>
+
+      <label style="margin-top:10px">Salz (%)</label>
+      <div class="row">
+        <input type="range" id="salt" min="2" max="3.2" step="0.1" value="3">
+        <div class="value"><span id="saltVal">3.0</span> %</div>
+      </div>
+
+      <label style="margin-top:10px">Garzeit</label>
+      <select id="time">
+        <option value="24">24 Std</option>
+        <option value="36">36 Std</option>
+        <option value="48" selected>48 Std</option>
+      </select>
+    </div> <!-- Ende Kasten 2 -->
+
+    <!-- KASTEN 3: Ergebnisse -->
+    <div class="card">
+    <h2>Ergebnisse</h2>
+    <div id="results"></div>
+  </div>
+
+</div> <!-- Ende container -->
+
+<script>
+  const balls1 = document.getElementById('balls1');
+  const balls2 = document.getElementById('balls2');
+  const weight1 = document.getElementById('weight1');
+  const weight2 = document.getElementById('weight2');
+  const dinkel = document.getElementById('dinkel');
+  const hydration = document.getElementById('hydration');
+  const salt = document.getElementById('salt');
+  const timeSel = document.getElementById('time');
+
+  const dinkelVal = document.getElementById('dinkelVal');
+  const caputoVal = document.getElementById('caputoVal');
+  const hydrationVal = document.getElementById('hydrationVal');
+  const saltVal = document.getElementById('saltVal');
+  const results = document.getElementById('results');
+
+  for(let i=0;i<=10;i++){
+    balls1.innerHTML += `<option>${i}</option>`;
+    balls2.innerHTML += `<option>${i}</option>`;
+  }
+  balls1.value = 1;
+  balls2.value = 0;
+
+// Gewichtswerte für Dropdowns
+const weightOptions = [50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 400, 450, 500];
+
+weightOptions.forEach(w => {
+  weight1.innerHTML += `<option value="${w}">${w}</option>`;
+  weight2.innerHTML += `<option value="${w}">${w}</option>`;
+});
+
+// Standardwerte setzen
+weight1.value = 300;
+weight2.value = 100;
+
+
+
+  const inputs = [balls1, balls2, weight1, weight2, dinkel, hydration, salt, timeSel];
+  inputs.forEach(i => i.addEventListener('input', () => {
+    calculate();
+    saveSettings();
+  }));
+
+
+  function loadSettings() {
+    if (localStorage.getItem("balls1")) balls1.value = localStorage.getItem("balls1");
+    if (localStorage.getItem("balls2")) balls2.value = localStorage.getItem("balls2");
+    if (localStorage.getItem("weight1")) weight1.value = localStorage.getItem("weight1");
+    if (localStorage.getItem("weight2")) weight2.value = localStorage.getItem("weight2");
+    if (localStorage.getItem("dinkel")) dinkel.value = localStorage.getItem("dinkel");
+    if (localStorage.getItem("hydration")) hydration.value = localStorage.getItem("hydration");
+    if (localStorage.getItem("salt")) salt.value = localStorage.getItem("salt");
+    if (localStorage.getItem("timeSel")) timeSel.value = localStorage.getItem("timeSel");
+  }
+
+  function saveSettings() {
+    localStorage.setItem("balls1", balls1.value);
+    localStorage.setItem("balls2", balls2.value);
+    localStorage.setItem("weight1", weight1.value);
+    localStorage.setItem("weight2", weight2.value);
+    localStorage.setItem("dinkel", dinkel.value);
+    localStorage.setItem("hydration", hydration.value);
+    localStorage.setItem("salt", salt.value);
+    localStorage.setItem("timeSel", timeSel.value);
+  }
+
+  
+  function calculate(){
+    const b1 = +balls1.value;
+    const b2 = +balls2.value;
+    const w1 = +weight1.value;
+    const w2 = +weight2.value;
+    const d = +dinkel.value;
+    const h = +hydration.value;
+    const s = +salt.value;
+    const t = +timeSel.value;
+
+    // Slider-Anzeigen korrekt runden
+    dinkelVal.textContent = d.toFixed(0);
+    hydrationVal.textContent = h.toFixed(0);
+    saltVal.textContent = s.toFixed(1);
+
+    const caputoPercent = 100 - d;
+    caputoVal.textContent = caputoPercent.toFixed(0);
+    document.getElementById('caputo').value = caputoPercent;
+
+    // Gesamtteig
+    const totalDough = b1*w1 + b2*w2;
+
+    // Hefe-Faktor
+    const yeastFactor = t === 24 ? 0.00435 : t === 36 ? 0.003 : 0.002;
+
+    // Verschwendung 2 %
+    const waste = totalDough * 0.02;
+
+    // Mehlberechnung wie Excel: (Gesamtteig + Verschwendung) / (1 + Hydration + Salz + Hefe)
+    const flour = (totalDough + waste) / (1 + h/100 + s/100 + yeastFactor);
+
+    // Komponenten
+    const caputo = flour * (100-d)/100;
+    const dinkelFlour = flour * d/100;
+    const water = flour * h/100;
+    const saltG = flour * s/100;
+    const yeast = flour * yeastFactor;
+
+    // Endteig wie Excel: Summe der Zutaten (ohne Verschwendung)
+    const endDough = flour + water + saltG + yeast;
+
+    // Ausgabe
+    results.innerHTML = `
+    
+    <div class="result"><span>Caputo 00</span><strong class="green-value">${caputo.toFixed(0)} g</strong></div>
+    <div class="result"><span>Dinkel Vollkorn</span><strong class="green-value">${dinkelFlour.toFixed(0)} g</strong></div>
+    <div class="result"><span>Aktive Trockenhefe</span><strong class="green-value">${yeast.toFixed(2)} g</strong></div>
+    <div class="result"><span>Salz</span><strong class="green-value">${saltG.toFixed(1)} g</strong></div>
+     <div class="result"><span>Wasser</span><strong class="green-value">${water.toFixed(0)} g</strong></div>
+    
+     <div class="result"><span>Mehl gesamt</span><strong>${flour.toFixed(0)} g</strong></div>
+    <div class="result"><span>Gesamtteig</span><strong>${totalDough.toFixed(0)} g</strong></div>
+    <div class="result"><span>Verschwendung (2%)</span><strong>${waste.toFixed(0)} g</strong></div>
+    <div class="result"><span>Endteig</span><strong>${endDough.toFixed(0)} g</strong></div>
+    
+  `;
+
+}
+loadSettings();
+calculate();
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js');
+}
+
+</script>
+</body>
+</html>
