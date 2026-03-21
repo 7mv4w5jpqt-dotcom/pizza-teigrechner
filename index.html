@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pizza Teigrechner</title>
 
-
 <style>
 :root {
   --pizza-red: #d35400;
@@ -45,11 +44,7 @@ h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-
-
-.section {
-  margin-bottom: 26px;
-}
+.section { margin-bottom: 26px; }
 
 .section h2 {
   font-size: 1.2rem;
@@ -59,266 +54,168 @@ h1 {
   padding-bottom: 4px;
 }
 
-.field {
-  display: block;
-  margin-bottom: 28px;
-}
+.field { display: block; margin-bottom: 28px; }
+.field label { display: block; margin-bottom: 8px; font-weight: 500; }
+.field input, .field select { display: block; width: 100%; max-width: 100%; margin-bottom: 6px; }
+.field input[type="range"] { display: block; margin: 10px 0 6px; }
 
-.field label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 500;
-}
+.value { margin-bottom: 12px; font-size: 0.95rem; }
+label, .results span { line-height: 1.4; }
 
-.field input,
-.field select {
-  display: block;
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 6px;
-}
-
-.field input[type="range"] {
-  display: block;
-  margin: 10px 0 6px;
-}
-
-.value {
-  margin-bottom: 12px;
-  font-size: 0.95rem;
-}
-
-label,
-.results span {
-  line-height: 1.4;
-}
-
-input,
-select {
+input, select {
   padding: 8px 3px;
   border-radius: 10px;
   border: 1px solid var(--border-soft);
   font-size: 1rem;
 }
 
-input[type="range"] {
-  grid-column: 1 / -1;
-  margin-top: 6px;
-  margin-bottom: 4px;
-}
+input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; }
 
-.value-display {
-  text-align: right;
-  font-weight: 600;
-  color: var(--pizza-red);
-}
+.value-display { text-align: right; font-weight: 600; color: var(--pizza-red); }
 
 .results {
   background: var(--pizza-bg);
   border-radius: 14px;
   padding: 18px;
-  margin-top: 20px;
-}
-
-.results-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  font-size: 0.95rem;
-  border-bottom: 1px dashed rgba(0,0,0,0.15);
-}
-
-.results {
   margin-top: 32px;
 }
 
-
-.results-row:last-child {
-  border-bottom: none;
+.results-row {
+  display: flex; justify-content: space-between; padding: 10px 0;
+  font-size: 0.95rem; border-bottom: 1px dashed rgba(0,0,0,0.15);
 }
 
-.results span {
-  font-weight: 600;
-}
+.results-row:last-child { border-bottom: none; }
+.results span { font-weight: 600; }
 
-.footer {
-  text-align: center;
-  margin-top: 18px;
-  font-size: 0.85rem;
-  color: #777;
-}
+.footer { text-align: center; margin-top: 18px; font-size: 0.85rem; color: #777; }
 
 .card {
-  background: #ffffff;
-  border: 1px solid var(--border-soft);
-  border-radius: 14px;
-  padding: 20px 22px;
-  margin-bottom: 26px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  background: #ffffff; border: 1px solid var(--border-soft); border-radius: 14px;
+  padding: 20px 22px; margin-bottom: 26px; box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+  max-width: 100%; overflow: hidden;
 }
 
-.card {
-  max-width: 100%;
-  overflow: hidden;
-}
-
-
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.row input[type="range"] {
-  flex: 1;
-  margin-right: 12px;
-}
+.row { display: flex; align-items: center; justify-content: space-between; }
+.row input[type="range"] { flex: 1; margin-right: 12px; }
 
 .result {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px dashed rgba(0,0,0,0.15);
-  font-size: 0.95rem;
+  display: flex; justify-content: space-between; padding: 10px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.15); font-size: 0.95rem;
 }
-
-.result:last-child {
-  border-bottom: none;
-}
-
-.result strong {
-  color: var(--pizza-red);
-  font-weight: 600;
-}
+.result:last-child { border-bottom: none; }
+.result strong { color: var(--pizza-red); font-weight: 600; }
 
 .card h2 {
-  margin-top: 0;
-  margin-bottom: 14px;
-  font-size: 1.1rem;
-  color: var(--pizza-orange);
+  margin-top: 0; margin-bottom: 14px; font-size: 1.1rem; color: var(--pizza-orange);
 }
 
 .row-line {
-  display: grid;
-  grid-template-columns: 50px 50px 60px 100px;
-  gap: 4px;
-  align-items: center;
+  display: grid; grid-template-columns: 50px 50px 60px 100px; gap: 4px; align-items: center;
   margin-bottom: 14px;
 }
 
-.input-with-unit {
-  width: 80px;
-}
-
-
-.input-with-unit {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
+.input-with-unit { display: inline-flex; align-items: center; gap: 6px; width: 80px; }
 .input-with-unit input[type="number"] {
-  width: 90px;       /* anpassen oder in Media Queries überschreiben */
-  min-width: 60px;
-  padding: 8px 6px;
-  border-radius: 10px;
-  border: 1px solid var(--border-soft);
-  font-size: 1rem;
+  width: 90px; min-width: 60px; padding: 8px 6px; border-radius: 10px;
+  border: 1px solid var(--border-soft); font-size: 1rem;
 }
 
-.unit {
-  color: var(--pizza-text);
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.result strong.green-value {
-  color: #3e9160 !important;
-}
-
-
+.unit { color: var(--pizza-text); font-weight: 600; font-size: 0.95rem; }
+.result strong.green-value { color: #3e9160 !important; }
 </style>
 
 <link rel="manifest" href="./manifest.json">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="apple-touch-icon" href="icon-192.png">
-
 </head>
 <body>
   <div class="container">
-    <h1>🍕 Pizza-Teigrechner Marcus</h1>
+    <h1>🍕 Pizza-Teigrechner</h1>
 
-  <!-- KASTEN 1: Anzahl + Gewicht -->
-  <div class="card">
-
-    <div class="row-line">
-    <label>Anzahl</label>
-    <select id="balls1"></select>
-
-    <label>Gewicht</label>
-    <div class="input-with-unit">
-      <select id="weight1"></select>
-      <span class="unit">g</span>
-    </div>
-
-  </div>
-
-  <div class="row-line">
-    <label>Anzahl</label>
-    <select id="balls2"></select>
-
-    <label>Gewicht</label>
-    <div class="input-with-unit">
-      <select id="weight2"></select>
-      <span class="unit">g</span>
-    </div>
-
-  </div>
-</div> <!-- Ende Kasten 1 -->
-
-
-    <!-- KASTEN 2: Slider -->
+    <!-- KASTEN 1: Anzahl + Gewicht -->
     <div class="card">
-      <label>Dinkel Vollkorn Anteil (%)</label>
-      <div class="row">
-        <input type="range" id="dinkel" min="0" max="20" step="1" value="9">
-        <div class="value"><span id="dinkelVal">9</span> %</div>
+      <div class="row-line">
+        <label>Anzahl</label>
+        <select id="balls1"></select>
+
+        <label>Gewicht</label>
+        <div class="input-with-unit">
+          <select id="weight1"></select>
+          <span class="unit">g</span>
+        </div>
       </div>
 
-      <label>Caputo 00 Anteil (%)</label>
+      <div class="row-line">
+        <label>Anzahl</label>
+        <select id="balls2"></select>
+
+        <label>Gewicht</label>
+        <div class="input-with-unit">
+          <select id="weight2"></select>
+          <span class="unit">g</span>
+        </div>
+      </div>
+    </div> <!-- Ende Kasten 1 -->
+
+    <!-- KASTEN 2: Slider + Garzeit + Hefetyp -->
+    <div class="card">
+      <label>Vollkorn Mehl <span id="dinkelVal">0</span> %
+      </label>
       <div class="row">
-        <input type="range" id="caputo" min="0" max="100" step="1" value="91" disabled>
-        <div class="value"><span id="caputoVal">91</span> %</div>
+        <input type="range" id="dinkel" min="0" max="50" step="1" value="0">
       </div>
 
-      <label style="margin-top:10px">Hydration (%)</label>
+      <label>Typ 00 Mehl <span id="caputoVal">100</span> %
       <div class="row">
-        <input type="range" id="hydration" min="55" max="65" step="1" value="63">
-        <div class="value"><span id="hydrationVal">63</span> %</div>
+        <input type="range" id="caputo" min="0" max="100" step="1" value="100" disabled>
       </div>
 
-      <label style="margin-top:10px">Salz (%)</label>
+      <label style="margin-top:10px">
+        Hydration <span id="hydrationVal">63</span> %
+      </label>
       <div class="row">
-        <input type="range" id="salt" min="2" max="3.2" step="0.1" value="3">
-        <div class="value"><span id="saltVal">3.0</span> %</div>
+        <input type="range" id="hydration" min="50" max="80" step="1" value="63">
       </div>
 
-      <label style="margin-top:10px">Garzeit</label>
-      <select id="time">
-        <option value="24">24 Std</option>
-        <option value="36">36 Std</option>
-        <option value="48" selected>48 Std</option>
-      </select>
+      <label style="margin-top:10px">
+        Salz <span id="saltVal">2.9</span> %
+      </label>
+      <div class="row" style="margin-bottom:20px">
+        <input type="range" id="salt" min="1.5" max="3.5" step="0.1" value="2.9">
+      </div>
+      
+      <div class="row" style="display:flex; align-items:center;">
+        <div>
+          <label style="margin-top:10px">Garzeit</label>
+          <select id="time">
+            <option value="12">12 Std</option>
+            <option value="24">24 Std</option>
+            <option value="36">36 Std</option>
+            <option value="48" selected>48 Std</option>
+            <option value="60">60 Std</option>
+          </select>
+        </div>
+
+              
+        <div>
+          <label style="margin-top:10px">Hefetyp</label>
+          <select id="yeastType">
+            <option value="instant" selected>Instant Trockenhefe</option>
+            <option value="activeDry">Aktive Trockenhefe</option>
+            <option value="fresh">Frische Hefe</option>
+          </select>
+        </div>
+      </div>
     </div> <!-- Ende Kasten 2 -->
 
     <!-- KASTEN 3: Ergebnisse -->
     <div class="card">
-    <h2>Ergebnisse</h2>
-    <div id="results"></div>
-  </div>
-
-</div> <!-- Ende container -->
+      <h2>Ergebnisse</h2>
+      <div id="results"></div>
+    </div>
+  </div> <!-- Ende container -->
 
 <script>
   const balls1 = document.getElementById('balls1');
@@ -329,6 +226,7 @@ input[type="range"] {
   const hydration = document.getElementById('hydration');
   const salt = document.getElementById('salt');
   const timeSel = document.getElementById('time');
+  const yeastTypeSel = document.getElementById('yeastType');
 
   const dinkelVal = document.getElementById('dinkelVal');
   const caputoVal = document.getElementById('caputoVal');
@@ -336,121 +234,146 @@ input[type="range"] {
   const saltVal = document.getElementById('saltVal');
   const results = document.getElementById('results');
 
-  for(let i=0;i<=10;i++){
+  // Anzahl-Optionen
+  for (let i = 0; i <= 10; i++) {
     balls1.innerHTML += `<option>${i}</option>`;
     balls2.innerHTML += `<option>${i}</option>`;
   }
   balls1.value = 1;
   balls2.value = 0;
 
-// Gewichtswerte für Dropdowns
-const weightOptions = [50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 400, 450, 500];
+  // Gewichtswerte
+  const weightOptions = Array.from({ length: (400 - 50) / 10 + 1 }, (_, i) => 50 + i * 10);
+  weightOptions.forEach(w => {
+    weight1.innerHTML += `<option value="${w}">${w}</option>`;
+    weight2.innerHTML += `<option value="${w}">${w}</option>`;
+  });
+  weight1.value = 300;
+  weight2.value = 100;
 
-weightOptions.forEach(w => {
-  weight1.innerHTML += `<option value="${w}">${w}</option>`;
-  weight2.innerHTML += `<option value="${w}">${w}</option>`;
-});
-
-// Standardwerte setzen
-weight1.value = 300;
-weight2.value = 100;
-
-
-
-  const inputs = [balls1, balls2, weight1, weight2, dinkel, hydration, salt, timeSel];
+  const inputs = [balls1, balls2, weight1, weight2, dinkel, hydration, salt, timeSel, yeastTypeSel];
   inputs.forEach(i => i.addEventListener('input', () => {
     calculate();
     saveSettings();
   }));
 
-
   function loadSettings() {
-    if (localStorage.getItem("balls1")) balls1.value = localStorage.getItem("balls1");
-    if (localStorage.getItem("balls2")) balls2.value = localStorage.getItem("balls2");
-    if (localStorage.getItem("weight1")) weight1.value = localStorage.getItem("weight1");
-    if (localStorage.getItem("weight2")) weight2.value = localStorage.getItem("weight2");
-    if (localStorage.getItem("dinkel")) dinkel.value = localStorage.getItem("dinkel");
-    if (localStorage.getItem("hydration")) hydration.value = localStorage.getItem("hydration");
-    if (localStorage.getItem("salt")) salt.value = localStorage.getItem("salt");
-    if (localStorage.getItem("timeSel")) timeSel.value = localStorage.getItem("timeSel");
+    const get = k => localStorage.getItem(k);
+    if (get("balls1")) balls1.value = get("balls1");
+    if (get("balls2")) balls2.value = get("balls2");
+    if (get("weight1")) weight1.value = get("weight1");
+    if (get("weight2")) weight2.value = get("weight2");
+    if (get("dinkel")) dinkel.value = get("dinkel");
+    if (get("hydration")) hydration.value = get("hydration");
+    if (get("salt")) salt.value = get("salt");
+    if (get("timeSel")) timeSel.value = get("timeSel");
+    if (get("yeastType")) yeastTypeSel.value = get("yeastType");
   }
 
   function saveSettings() {
-    localStorage.setItem("balls1", balls1.value);
-    localStorage.setItem("balls2", balls2.value);
-    localStorage.setItem("weight1", weight1.value);
-    localStorage.setItem("weight2", weight2.value);
-    localStorage.setItem("dinkel", dinkel.value);
-    localStorage.setItem("hydration", hydration.value);
-    localStorage.setItem("salt", salt.value);
-    localStorage.setItem("timeSel", timeSel.value);
+    const set = (k, v) => localStorage.setItem(k, v);
+    set("balls1", balls1.value);
+    set("balls2", balls2.value);
+    set("weight1", weight1.value);
+    set("weight2", weight2.value);
+    set("dinkel", dinkel.value);
+    set("hydration", hydration.value);
+    set("salt", salt.value);
+    set("timeSel", timeSel.value);
+    set("yeastType", yeastTypeSel.value);
   }
 
-  
-  function calculate(){
+  // IDY-Prozent (aus Models.swift) — Prozent vom Mehl
+  const idyPercentByHours = {
+    12: 0.29,
+    24: 0.17,
+    36: 0.13,
+    48: 0.09,
+    60: 0.07
+  };
+
+  // Hefetyp-Faktoren (wie in Models.swift)
+  const yeastFactorByType = {
+    instant: 1.0,
+    activeDry: 1.25,
+    fresh: 3.0
+  };
+
+  function calculate() {
     const b1 = +balls1.value;
     const b2 = +balls2.value;
     const w1 = +weight1.value;
     const w2 = +weight2.value;
-    const d = +dinkel.value;
-    const h = +hydration.value;
-    const s = +salt.value;
-    const t = +timeSel.value;
+    const d = +dinkel.value;       // Dinkel in %
+    const h = +hydration.value;    // Hydration in %
+    const s = +salt.value;         // Salz in %
+    const t = +timeSel.value;      // Stunden
+    const yeastType = yeastTypeSel.value; // instant | activeDry | fresh
 
-    // Slider-Anzeigen korrekt runden
+    // Slider-Anzeigen
     dinkelVal.textContent = d.toFixed(0);
     hydrationVal.textContent = h.toFixed(0);
     saltVal.textContent = s.toFixed(1);
 
+    // Caputo-Anteil
     const caputoPercent = 100 - d;
     caputoVal.textContent = caputoPercent.toFixed(0);
     document.getElementById('caputo').value = caputoPercent;
 
-    // Gesamtteig
-    const totalDough = b1*w1 + b2*w2;
+    // Geplanter Gesamtteig (ohne Verschwendung)
+    const totalDough = b1 * w1 + b2 * w2;
 
-    // Hefe-Faktor
-    const yeastFactor = t === 24 ? 0.00435 : t === 36 ? 0.003 : 0.002;
-
-    // Verschwendung 2 %
+    // Verschwendung 2 % (vom geplanten Gesamtteig)
     const waste = totalDough * 0.02;
 
-    // Mehlberechnung wie Excel: (Gesamtteig + Verschwendung) / (1 + Hydration + Salz + Hefe)
-    const flour = (totalDough + waste) / (1 + h/100 + s/100 + yeastFactor);
+    // Endteig (inkl. Verschwendung) — entspricht Swift: finalDoughG
+    const finalDough = totalDough + waste;
 
-    // Komponenten
-    const caputo = flour * (100-d)/100;
-    const dinkelFlour = flour * d/100;
-    const water = flour * h/100;
-    const saltG = flour * s/100;
-    const yeast = flour * yeastFactor;
+    // IDY-Prozent (aus Fermentation) — Prozent vom Mehl
+    const idyPercent = idyPercentByHours[t] ?? 0.09; // Default 48h: 0.09%
 
-    // Endteig wie Excel: Summe der Zutaten (ohne Verschwendung)
-    const endDough = flour + water + saltG + yeast;
+    // Mehl: finalDough / (1 + hyd% + salt% + idy%)
+    const flour = finalDough / (1 + h / 100 + s / 100 + idyPercent / 100);
+
+    // Zutaten
+    const caputo = flour * (caputoPercent / 100);
+    const dinkelFlour = flour * (d / 100);
+    const water = flour * (h / 100);
+    const saltG = flour * (s / 100);
+
+    // Hefe-Menge: IDY-Basis mit Faktor je Hefetyp
+    const idyGrams = flour * (idyPercent / 100);
+    const yeastFactor = yeastFactorByType[yeastType] ?? 1.0;
+    const yeastGrams = idyGrams * yeastFactor;
+
+    // Bezeichnung des Hefetyps für die Ausgabe
+    const yeastLabel = {
+      instant: "Instant Trockenhefe",
+      activeDry: "Aktive Trockenhefe",
+      fresh: "Frische Hefe"
+    }[yeastType] ?? "Hefe";
 
     // Ausgabe
     results.innerHTML = `
-    
-    <div class="result"><span>Caputo 00</span><strong class="green-value">${caputo.toFixed(0)} g</strong></div>
-    <div class="result"><span>Dinkel Vollkorn</span><strong class="green-value">${dinkelFlour.toFixed(0)} g</strong></div>
-    <div class="result"><span>Aktive Trockenhefe</span><strong class="green-value">${yeast.toFixed(2)} g</strong></div>
-    <div class="result"><span>Salz</span><strong class="green-value">${saltG.toFixed(1)} g</strong></div>
-     <div class="result"><span>Wasser</span><strong class="green-value">${water.toFixed(0)} g</strong></div>
-    
-     <div class="result"><span>Mehl gesamt</span><strong>${flour.toFixed(0)} g</strong></div>
-    <div class="result"><span>Gesamtteig</span><strong>${totalDough.toFixed(0)} g</strong></div>
-    <div class="result"><span>Verschwendung (2%)</span><strong>${waste.toFixed(0)} g</strong></div>
-    <div class="result"><span>Endteig</span><strong>${endDough.toFixed(0)} g</strong></div>
-    
-  `;
+      <div class="result"><span>Typ 00 Mehl</span><strong class="green-value">${caputo.toFixed(0)} g</strong></div>
+      <div class="result"><span>Vollkorn Mehl</span><strong class="green-value">${dinkelFlour.toFixed(0)} g</strong></div>
+      <div class="result"><span>${yeastLabel}</span><strong class="green-value">${yeastGrams.toFixed(2)} g</strong></div>
+      <div class="result"><span>Salz</span><strong class="green-value">${saltG.toFixed(1)} g</strong></div>
+      <div class="result"><span>Wasser</span><strong class="green-value">${water.toFixed(0)} g</strong></div>
 
-}
-loadSettings();
-calculate();
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js');
-}
+      <div class="result"><span>Mehl gesamt</span><strong>${flour.toFixed(0)} g</strong></div>
+      <div class="result"><span>Gesamtteig</span><strong>${totalDough.toFixed(0)} g</strong></div>
+      <div class="result"><span>Verschwendung (2%)</span><strong>${waste.toFixed(0)} g</strong></div>
+      <div class="result"><span>Endteig</span><strong>${finalDough.toFixed(0)} g</strong></div>
+    `;
+  }
 
+  loadSettings();
+  calculate();
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js');
+  }
 </script>
 </body>
 </html>
