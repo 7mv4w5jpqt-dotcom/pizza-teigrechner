@@ -9,8 +9,6 @@
 :root {
   --pizza-red: #d35400;
   --pizza-orange: #e67e22;
-  --pizza-light: #fff4e6;
-  --pizza-bg: #fdf7f2;
   --pizza-text: #2c2c2c;
   --card-bg: #ffffff;
   --border-soft: #e6dcd2;
@@ -44,23 +42,7 @@ h1 {
   box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
 
-.section { margin-bottom: 26px; }
-
-.section h2 {
-  font-size: 1.2rem;
-  margin-bottom: 12px;
-  color: var(--pizza-orange);
-  border-bottom: 2px solid var(--pizza-light);
-  padding-bottom: 4px;
-}
-
-.field { display: block; margin-bottom: 28px; }
-.field label { display: block; margin-bottom: 8px; font-weight: 500; }
-.field input, .field select { display: block; width: 100%; max-width: 100%; margin-bottom: 6px; }
-.field input[type="range"] { display: block; margin: 10px 0 6px; }
-
-.value { margin-bottom: 12px; font-size: 0.95rem; }
-label, .results span { line-height: 1.4; }
+label { line-height: 1.4; }
 
 input, select {
   padding: 8px 3px;
@@ -70,25 +52,6 @@ input, select {
 }
 
 input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; }
-
-.value-display { text-align: right; font-weight: 600; color: var(--pizza-red); }
-
-.results {
-  background: var(--pizza-bg);
-  border-radius: 14px;
-  padding: 18px;
-  margin-top: 32px;
-}
-
-.results-row {
-  display: flex; justify-content: space-between; padding: 10px 0;
-  font-size: 0.95rem; border-bottom: 1px dashed rgba(0,0,0,0.15);
-}
-
-.results-row:last-child { border-bottom: none; }
-.results span { font-weight: 600; }
-
-.footer { text-align: center; margin-top: 18px; font-size: 0.85rem; color: #777; }
 
 .card {
   background: #ffffff; border: 1px solid var(--border-soft); border-radius: 14px;
@@ -111,18 +74,99 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
 }
 
 .row-line {
-  display: grid; grid-template-columns: 50px 50px 60px 100px; gap: 4px; align-items: center;
+  display: grid; grid-template-columns: 50px 50px 60px 100px; column-gap: 4px; row-gap: 8px; align-items: center;
   margin-bottom: 14px;
 }
 
-.input-with-unit { display: inline-flex; align-items: center; gap: 6px; width: 80px; }
-.input-with-unit input[type="number"] {
-  width: 90px; min-width: 60px; padding: 8px 6px; border-radius: 10px;
-  border: 1px solid var(--border-soft); font-size: 1rem;
+.dough-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 38px;
+  align-items: center;
+  padding-left: 54px;
 }
+
+.dough-previews {
+  display: grid;
+  gap: 10px;
+  margin-top: 2px;
+}
+
+.dough-preview.is-empty::before {
+  content: "Keine Teigballen";
+  color: #9a8a7c;
+  font-size: 0.85rem;
+}
+
+.dough-ball {
+  width: var(--ball-size);
+  height: var(--ball-size);
+  border-radius: 50%;
+  position: relative;
+  flex: 0 0 auto;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255,255,255,0.72) 0 14%, transparent 15%),
+    radial-gradient(circle at 63% 68%, rgba(122,81,36,var(--speckle-opacity)) 0 5%, transparent 6%),
+    radial-gradient(circle at 24% 74%, rgba(122,81,36,var(--speckle-opacity)) 0 4%, transparent 5%),
+    radial-gradient(circle at 70% 31%, rgba(122,81,36,var(--speckle-opacity)) 0 3%, transparent 4%),
+    var(--ball-color);
+  border: 1px solid rgba(142, 95, 43, 0.22);
+  box-shadow:
+    inset -5px -7px 10px rgba(154, 102, 41, 0.13),
+    inset 4px 5px 8px rgba(255,255,255,0.42),
+    0 var(--shadow-y) var(--shadow-blur) rgba(91, 52, 18, 0.16);
+  transform: scale(var(--ferment-scale));
+}
+
+.dough-ball.is-entering {
+  animation: doughDropIn 420ms cubic-bezier(.18,.9,.28,1.22) both;
+  animation-delay: var(--delay);
+}
+
+.dough-ball.is-leaving {
+  animation: doughLeave 260ms ease-in both;
+  animation-delay: var(--delay);
+  pointer-events: none;
+}
+
+@keyframes doughDropIn {
+  from {
+    opacity: 0;
+    transform: translateY(-26px) scale(calc(var(--ferment-scale) * 0.76));
+  }
+  68% {
+    opacity: 1;
+    transform: translateY(3px) scale(calc(var(--ferment-scale) * 1.04));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(var(--ferment-scale));
+  }
+}
+
+@keyframes doughLeave {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(var(--ferment-scale));
+  }
+  to {
+    opacity: 0;
+    transform: translateY(18px) scale(calc(var(--ferment-scale) * 0.72));
+  }
+}
+
+.input-with-unit { display: inline-flex; align-items: center; gap: 6px; width: 80px; }
 
 .unit { color: var(--pizza-text); font-weight: 600; font-size: 0.95rem; }
 .result strong.green-value { color: #3e9160 !important; }
+
+@media (max-width: 420px) {
+  .dough-preview {
+    padding-left: 0;
+  }
+}
 </style>
 
 <link rel="manifest" href="./manifest.json">
@@ -137,10 +181,10 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     <!-- KASTEN 1: Anzahl + Gewicht -->
     <div class="card">
       <div class="row-line">
-        <label>Anzahl</label>
+        <label for="balls1">Anzahl</label>
         <select id="balls1"></select>
 
-        <label>Gewicht</label>
+        <label for="weight1">Gewicht</label>
         <div class="input-with-unit">
           <select id="weight1"></select>
           <span class="unit">g</span>
@@ -148,38 +192,42 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
       </div>
 
       <div class="row-line">
-        <label>Anzahl</label>
+        <label for="balls2">Anzahl</label>
         <select id="balls2"></select>
 
-        <label>Gewicht</label>
+        <label for="weight2">Gewicht</label>
         <div class="input-with-unit">
           <select id="weight2"></select>
           <span class="unit">g</span>
         </div>
       </div>
+
+      <div class="dough-previews">
+        <div class="dough-preview" id="doughPreview1" aria-label="Teigballen Vorschau 1"></div>
+        <div class="dough-preview" id="doughPreview2" aria-label="Teigballen Vorschau 2"></div>
+      </div>
     </div> <!-- Ende Kasten 1 -->
 
     <!-- KASTEN 2: Slider + Garezeit + Hefetyp -->
     <div class="card">
-      <label>Vollkorn Mehl <span id="dinkelVal">0</span> %
-      </label>
+      <label for="dinkel">Vollkorn Mehl <span id="dinkelVal">0</span> %</label>
       <div class="row">
         <input type="range" id="dinkel" min="0" max="50" step="1" value="0">
       </div>
 
-      <label>Typ 00 Mehl <span id="caputoVal">100</span> %
+      <label for="caputo">Typ 00 Mehl <span id="caputoVal">100</span> %</label>
       <div class="row">
         <input type="range" id="caputo" min="0" max="100" step="1" value="100" disabled>
       </div>
 
-      <label style="margin-top:10px">
+      <label for="hydration" style="margin-top:10px">
         Hydration <span id="hydrationVal">63</span> %
       </label>
       <div class="row">
         <input type="range" id="hydration" min="50" max="80" step="1" value="63">
       </div>
 
-      <label style="margin-top:10px">
+      <label for="salt" style="margin-top:10px">
         Salz <span id="saltVal">2.9</span> %
       </label>
       <div class="row" style="margin-bottom:20px">
@@ -188,7 +236,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
       
       <div class="row" style="display:flex; align-items:center;">
         <div>
-          <label style="margin-top:10px">Garezeit</label>
+          <label for="time" style="margin-top:10px">Garezeit</label>
           <select id="time">
             <option value="12">12 Std</option>
             <option value="24">24 Std</option>
@@ -200,7 +248,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
 
               
         <div>
-          <label style="margin-top:10px">Hefetyp</label>
+          <label for="yeastType" style="margin-top:10px">Hefetyp</label>
           <select id="yeastType">
             <option value="instant" selected>Instant Trockenhefe</option>
             <option value="activeDry">Aktive Trockenhefe</option>
@@ -232,12 +280,21 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
   const caputoVal = document.getElementById('caputoVal');
   const hydrationVal = document.getElementById('hydrationVal');
   const saltVal = document.getElementById('saltVal');
+  const doughPreview1 = document.getElementById('doughPreview1');
+  const doughPreview2 = document.getElementById('doughPreview2');
   const results = document.getElementById('results');
+
+  function addOption(select, value, label = value) {
+    const option = document.createElement('option');
+    option.value = value;
+    option.textContent = label;
+    select.appendChild(option);
+  }
 
   // Anzahl-Optionen
   for (let i = 0; i <= 10; i++) {
-    balls1.innerHTML += `<option>${i}</option>`;
-    balls2.innerHTML += `<option>${i}</option>`;
+    addOption(balls1, i);
+    addOption(balls2, i);
   }
   balls1.value = 1;
   balls2.value = 0;
@@ -245,17 +302,22 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
   // Gewichtswerte
   const weightOptions = Array.from({ length: (400 - 50) / 10 + 1 }, (_, i) => 50 + i * 10);
   weightOptions.forEach(w => {
-    weight1.innerHTML += `<option value="${w}">${w}</option>`;
-    weight2.innerHTML += `<option value="${w}">${w}</option>`;
+    addOption(weight1, w);
+    addOption(weight2, w);
   });
   weight1.value = 300;
   weight2.value = 100;
 
   const inputs = [balls1, balls2, weight1, weight2, dinkel, hydration, salt, timeSel, yeastTypeSel];
-  inputs.forEach(i => i.addEventListener('input', () => {
+  function handleInputChange() {
     calculate();
     saveSettings();
-  }));
+  }
+
+  inputs.forEach(input => {
+    input.addEventListener('input', handleInputChange);
+    input.addEventListener('change', handleInputChange);
+  });
 
   function loadSettings() {
     const get = k => localStorage.getItem(k);
@@ -299,6 +361,82 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     fresh: 3.0
   };
 
+  function getDoughBallStyles(weight, hours, wholegrainPercent) {
+    const weightRatio = (weight - 50) / (400 - 50);
+    const timeRatio = (hours - 12) / (60 - 12);
+    const wholegrainRatio = wholegrainPercent / 50;
+    const size = 22 + weightRatio * 22 + timeRatio * 5;
+    const fermentScale = 1 + timeRatio * 0.08;
+    const lightness = 91 - wholegrainRatio * 18;
+    const saturation = 74 - wholegrainRatio * 22;
+
+    return {
+      title: `${weight} g, ${hours} Std, ${wholegrainPercent}% Vollkorn`,
+      size: `${size.toFixed(1)}px`,
+      fermentScale: fermentScale.toFixed(2),
+      speckleOpacity: (0.08 + wholegrainRatio * 0.34).toFixed(2),
+      shadowY: `${(2 + timeRatio * 4).toFixed(1)}px`,
+      shadowBlur: `${(7 + timeRatio * 8).toFixed(1)}px`,
+      ballColor: `hsl(37, ${saturation.toFixed(0)}%, ${lightness.toFixed(0)}%)`
+    };
+  }
+
+  function applyDoughBallStyles(ball, styles) {
+    ball.title = styles.title;
+    ball.style.setProperty('--ball-size', styles.size);
+    ball.style.setProperty('--ferment-scale', styles.fermentScale);
+    ball.style.setProperty('--speckle-opacity', styles.speckleOpacity);
+    ball.style.setProperty('--shadow-y', styles.shadowY);
+    ball.style.setProperty('--shadow-blur', styles.shadowBlur);
+    ball.style.setProperty('--ball-color', styles.ballColor);
+  }
+
+  function createDoughBall(styles, delay) {
+    const ball = document.createElement('span');
+    ball.className = 'dough-ball is-entering';
+    ball.style.setProperty('--delay', `${delay}ms`);
+    applyDoughBallStyles(ball, styles);
+    ball.addEventListener('animationend', () => {
+      ball.classList.remove('is-entering');
+      ball.style.removeProperty('--delay');
+    }, { once: true });
+    return ball;
+  }
+
+  function renderDoughPreview(container, count, weight, hours, wholegrainPercent) {
+    const styles = getDoughBallStyles(weight, hours, wholegrainPercent);
+    const activeBalls = [...container.querySelectorAll('.dough-ball:not(.is-leaving)')];
+    const difference = count - activeBalls.length;
+
+    container.classList.remove('is-empty');
+    activeBalls.forEach(ball => applyDoughBallStyles(ball, styles));
+
+    if (difference > 0) {
+      for (let i = 0; i < difference; i++) {
+        const remainingFromRight = difference - 1 - i;
+        container.appendChild(createDoughBall(styles, remainingFromRight * 80));
+      }
+    }
+
+    if (difference < 0) {
+      const ballsToRemove = activeBalls.slice(0, Math.abs(difference));
+      ballsToRemove.forEach((ball, index) => {
+        ball.classList.remove('is-entering');
+        ball.classList.add('is-leaving');
+        ball.style.setProperty('--delay', `${index * 80}ms`);
+        ball.addEventListener('animationend', () => {
+          ball.remove();
+          const hasActiveBalls = container.querySelector('.dough-ball:not(.is-leaving)');
+          if (!hasActiveBalls) container.classList.add('is-empty');
+        }, { once: true });
+      });
+    }
+
+    if (count === 0 && !container.querySelector('.dough-ball')) {
+      container.classList.add('is-empty');
+    }
+  }
+
   function calculate() {
     const b1 = +balls1.value;
     const b2 = +balls2.value;
@@ -319,6 +457,9 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     const caputoPercent = 100 - d;
     caputoVal.textContent = caputoPercent.toFixed(0);
     document.getElementById('caputo').value = caputoPercent;
+
+    renderDoughPreview(doughPreview1, b1, w1, t, d);
+    renderDoughPreview(doughPreview2, b2, w2, t, d);
 
     // Geplanter Gesamtteig (ohne Verschwendung)
     const totalDough = b1 * w1 + b2 * w2;
