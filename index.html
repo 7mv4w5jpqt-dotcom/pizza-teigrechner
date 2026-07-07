@@ -159,7 +159,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
       </div>
     </div> <!-- Ende Kasten 1 -->
 
-    <!-- KASTEN 2: Slider + Garzeit + Hefetyp -->
+    <!-- KASTEN 2: Slider + Garezeit + Hefetyp -->
     <div class="card">
       <label>Vollkorn Mehl <span id="dinkelVal">0</span> %
       </label>
@@ -188,7 +188,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
       
       <div class="row" style="display:flex; align-items:center;">
         <div>
-          <label style="margin-top:10px">Garzeit</label>
+          <label style="margin-top:10px">Garezeit</label>
           <select id="time">
             <option value="12">12 Std</option>
             <option value="24">24 Std</option>
@@ -357,10 +357,9 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     results.innerHTML = `
       <div class="result"><span>Typ 00 Mehl</span><strong class="green-value">${caputo.toFixed(0)} g</strong></div>
       <div class="result"><span>Vollkorn Mehl</span><strong class="green-value">${dinkelFlour.toFixed(0)} g</strong></div>
-      <div class="result"><span>${yeastLabel}</span><strong class="green-value">${yeastGrams.toFixed(2)} g</strong></div>
-      <div class="result"><span>Salz</span><strong class="green-value">${saltG.toFixed(1)} g</strong></div>
+      <div class="result"><span>${yeastLabel}</span><strong class="green-value">${yeastGrams.toFixed(1)} g</strong></div>
       <div class="result"><span>Wasser</span><strong class="green-value">${water.toFixed(0)} g</strong></div>
-
+      <div class="result"><span>Salz</span><strong class="green-value">${saltG.toFixed(1)} g</strong></div>
       <div class="result"><span>Mehl gesamt</span><strong>${flour.toFixed(0)} g</strong></div>
       <div class="result"><span>Gesamtteig</span><strong>${totalDough.toFixed(0)} g</strong></div>
       <div class="result"><span>Verschwendung (2%)</span><strong>${waste.toFixed(0)} g</strong></div>
