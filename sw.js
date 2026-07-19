@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pizza-teigrechner-v4';
+const CACHE_NAME = 'pizza-teigrechner-v11';
 
 const FILES_TO_CACHE = [
   './',
