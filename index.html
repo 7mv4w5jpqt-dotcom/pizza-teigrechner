@@ -82,22 +82,43 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 8px;
-  min-height: 38px;
+  gap: 4px;
+  min-height: 46px;
+  max-height: 320px;
   align-items: center;
-  padding-left: 54px;
+  padding: 5px 12px 7px 54px;
+  margin-top: 0;
+  opacity: 1;
+  overflow: hidden;
+  transition:
+    max-height 620ms cubic-bezier(.22,.61,.36,1),
+    min-height 620ms cubic-bezier(.22,.61,.36,1),
+    padding-top 620ms cubic-bezier(.22,.61,.36,1),
+    padding-right 620ms cubic-bezier(.22,.61,.36,1),
+    padding-bottom 620ms cubic-bezier(.22,.61,.36,1),
+    padding-left 620ms cubic-bezier(.22,.61,.36,1),
+    margin-top 620ms cubic-bezier(.22,.61,.36,1),
+    opacity 260ms ease;
 }
 
 .dough-previews {
-  display: grid;
-  gap: 10px;
+  display: block;
   margin-top: 2px;
 }
 
-.dough-preview.is-empty::before {
-  content: "Keine Teigballen";
-  color: #9a8a7c;
-  font-size: 0.85rem;
+.dough-preview:not(.is-empty) + .dough-preview:not(.is-empty) {
+  margin-top: -4px;
+}
+
+.dough-preview.is-empty {
+  min-height: 0;
+  max-height: 0;
+  padding-top: 0;
+  padding-right: 12px;
+  padding-bottom: 0;
+  padding-left: 54px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .dough-ball {
@@ -114,9 +135,10 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     var(--ball-color);
   border: 1px solid rgba(142, 95, 43, 0.22);
   box-shadow:
-    inset -5px -7px 10px rgba(154, 102, 41, 0.13),
-    inset 4px 5px 8px rgba(255,255,255,0.42),
-    0 var(--shadow-y) var(--shadow-blur) rgba(91, 52, 18, 0.16);
+    inset -6px -8px 12px rgba(124, 76, 28, 0.16),
+    inset 4px 5px 9px rgba(255,255,255,0.48),
+    0 1px 1px rgba(91, 52, 18, 0.08),
+    0 var(--shadow-y) var(--shadow-blur) var(--shadow-spread) rgba(91, 52, 18, 0.18);
   transform: scale(var(--ferment-scale));
 }
 
@@ -375,8 +397,9 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
       size: `${size.toFixed(1)}px`,
       fermentScale: fermentScale.toFixed(2),
       speckleOpacity: (0.08 + wholegrainRatio * 0.34).toFixed(2),
-      shadowY: `${(2 + timeRatio * 4).toFixed(1)}px`,
-      shadowBlur: `${(7 + timeRatio * 8).toFixed(1)}px`,
+      shadowY: `${(3 + timeRatio * 2).toFixed(1)}px`,
+      shadowBlur: `${(8 + timeRatio * 5).toFixed(1)}px`,
+      shadowSpread: `${(-4 - timeRatio * 2).toFixed(1)}px`,
       ballColor: `hsl(37, ${saturation.toFixed(0)}%, ${lightness.toFixed(0)}%)`
     };
   }
@@ -388,6 +411,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
     ball.style.setProperty('--speckle-opacity', styles.speckleOpacity);
     ball.style.setProperty('--shadow-y', styles.shadowY);
     ball.style.setProperty('--shadow-blur', styles.shadowBlur);
+    ball.style.setProperty('--shadow-spread', styles.shadowSpread);
     ball.style.setProperty('--ball-color', styles.ballColor);
   }
 
@@ -413,8 +437,7 @@ input[type="range"] { grid-column: 1 / -1; margin-top: 6px; margin-bottom: 4px; 
 
     if (difference > 0) {
       for (let i = 0; i < difference; i++) {
-        const remainingFromRight = difference - 1 - i;
-        container.appendChild(createDoughBall(styles, remainingFromRight * 80));
+        container.insertBefore(createDoughBall(styles, i * 80), container.firstChild);
       }
     }
 
